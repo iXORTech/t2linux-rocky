@@ -1,0 +1,11 @@
+[copr-ixortech-t2linux]
+name=Copr repo for t2linux owned by iXOR Technology (Qubik65536).
+baseurl=https://download.copr.fedorainfracloud.org/results/ixortech/t2linux/epel-10-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/ixortech/t2linux/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+priority=80

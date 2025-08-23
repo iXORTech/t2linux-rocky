@@ -1,10 +1,11 @@
 #!/usr/bin/bash
 set -e
 
-KERNEL_VERSION=6.15.9-201.fc42
+KERNEL_VERSION=6.12.0-55.12.1.el10_0
 
 cd "$sourcedir"
-koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
+# koji download-build --quiet --arch=src "kernel-$KERNEL_VERSION"
+curl -O https://dl.rockylinux.org/pub/rocky/10/devel/source/tree/Packages/k/kernel-$KERNEL_VERSION.src.rpm
 rpmdev-extract -q "kernel-$KERNEL_VERSION.src.rpm"
 mv -n "kernel-$KERNEL_VERSION.src"/* .
 rm -r "kernel-$KERNEL_VERSION.src.rpm" "kernel-$KERNEL_VERSION.src"
@@ -20,6 +21,9 @@ sed -i "/%define with_debug /c %define with_debug 0" "kernel.spec"
 
 # Disable debuginfo
 sed -i "/%define with_debuginfo /c %define with_debuginfo 0" "kernel.spec"
+
+# Disable kABI check
+sed -i '/^%define with_kabichk.*_without_kabichk.*_without_kabichk/c\%define with_kabichk 0' kernel.spec
 
 # Add our patches
 sed -i "/Patch1:/a Patch2: t2linux-combined.patch" "kernel.spec"
@@ -50,10 +54,10 @@ function write_kconfig_to_file {
 
 function set_kconfig_x86_64 {
   for file in \
-    "kernel-x86_64-fedora.config" \
-    "kernel-x86_64-rt-debug-fedora.config" \
-    "kernel-x86_64-rt-fedora.config" \
-    "kernel-x86_64-debug-fedora.config"
+    "kernel-x86_64-rhel.config" \
+    "kernel-x86_64-rt-debug-rhel.config" \
+    "kernel-x86_64-rt-rhel.config" \
+    "kernel-x86_64-debug-rhel.config"
   do
     write_kconfig_to_file "$1" "$file"
   done
