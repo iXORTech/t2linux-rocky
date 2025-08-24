@@ -1,4 +1,4 @@
 [submodule "kernel/linux-t2-patches"]
 	path = kernel/linux-t2-patches
-	url = https://github.com/t2linux/linux-t2-patches
-	branch = 6.12
+	url = https://github.com/iXORTech/rocky-linux-t2-patches
+	branch = t2linux-rocky/rocky-10/6.12.0
